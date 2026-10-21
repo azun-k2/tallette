@@ -52,6 +52,7 @@
 <body>
 <main>
 <div class="hero">
+  <div class="hero-pill">🧾 The paper-tape calculator · Annotate, edit, and keep every step</div>
   <img class="icon" src="../icon-512.png" alt="" width="112" height="112">
   <h1>Tallette</h1>
   <p class="tagline">Una cinta de paper per als teus comptes.</p>
@@ -108,6 +109,71 @@
   </details><!-- /family:nav -->
   </nav>
 </div>
+<div class="demo-wrapper" id="demo">
+  <div class="tallette-stage" role="group" aria-label="Interactive demo: paper-tape adding machine with line annotations">
+    <div class="tallette-tape-roll" id="tlTapeRoll">
+      <div class="tallette-tape-row">
+        <span class="op-val">120.00</span>
+        <span class="note">Flight ticket</span>
+      </div>
+      <div class="tallette-tape-row">
+        <span class="op-val">+ 45.50</span>
+        <span class="note">Dinner with team</span>
+      </div>
+      <div class="tallette-tape-row">
+        <span class="op-val">+ 18.25</span>
+        <span class="note">Airport taxi</span>
+      </div>
+      <div class="tallette-tape-row">
+        <span class="op-val">- 20.00</span>
+        <span class="note">Promo voucher</span>
+      </div>
+      <div class="tallette-tape-divider"></div>
+      <div class="tallette-tape-row total">
+        <span class="op-val" id="tlTotal">* 163.75</span>
+        <span class="note">Total balance</span>
+      </div>
+    </div>
+    <div class="tallette-actions">
+      <button class="app-chip" id="tlAddLunch">+ $25.00 Lunch</button>
+      <button class="app-chip" id="tlAddCoffee">+ $12.50 Coffee</button>
+      <button class="app-chip" id="tlAddDiscount">- $10.00 Promo</button>
+      <button class="app-chip" id="tlResetTape">Reset Tape</button>
+    </div>
+    <span class="demo-hint">💡 Click any button above to add annotated entries to the scrolling paper roll</span>
+  </div>
+  <p class="demo-note">Visual simulation. On Mac, iPhone and iPad, Tallette lets you edit any past number, recalculating every total below it.</p>
+</div>
+<script>
+(function() {
+  var roll = document.getElementById('tlTapeRoll');
+  var totalEl = document.getElementById('tlTotal');
+  var bLunch = document.getElementById('tlAddLunch'), bCoffee = document.getElementById('tlAddCoffee');
+  var bDiscount = document.getElementById('tlAddDiscount'), bReset = document.getElementById('tlResetTape');
+
+  var currentTotal = 163.75;
+  var initialHTML = roll.innerHTML;
+
+  function addRow(valStr, valNum, noteText) {
+    currentTotal += valNum;
+    var div = document.createElement('div');
+    div.className = 'tallette-tape-row';
+    div.innerHTML = '<span class="op-val">' + valStr + '</span><span class="note">' + noteText + '</span>';
+    var divider = roll.querySelector('.tallette-tape-divider');
+    roll.insertBefore(div, divider);
+    totalEl.textContent = '* ' + currentTotal.toFixed(2);
+  }
+
+  bLunch.addEventListener('click', function() { addRow('+ 25.00', 25.00, "Team lunch"); });
+  bCoffee.addEventListener('click', function() { addRow('+ 12.50', 12.50, "Coffee break"); });
+  bDiscount.addEventListener('click', function() { addRow('- 10.00', -10.00, "Coupon discount"); });
+  bReset.addEventListener('click', function() {
+    roll.innerHTML = initialHTML;
+    currentTotal = 163.75;
+    totalEl = document.getElementById('tlTotal');
+  });
+})();
+</script>
 
 <!-- family:shot --><figure class="shot"><img src="../img/hero.jpg" alt="" width="1600" height="860"></figure><!-- /family:shot -->
 <section class="card">
@@ -124,6 +190,48 @@
   <p class="note">Requereix macOS 14 Sonoma o posterior; a l’iPhone i l’iPad, iOS i iPadOS 17 o posterior; a Android, Android 8.0 o posterior.</p>
 </section>
 
+<section class="card comparison-card" id="comparison">
+  <h2>Standard calculator apps vs Tallette</h2>
+  <p class="section-lead">A continuous paper tape where every step is visible, editable, and documented.</p>
+  <div class="table-scroll">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Aspect</th>
+          <th>Standard Calculators</th>
+          <th class="highlight-col">Tallette</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Calculation History</strong></td>
+          <td>Only shows current number; intermediate steps vanish</td>
+          <td class="highlight-col"><strong>Continuous visible paper tape showing every single step</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Error Correction</strong></td>
+          <td>One typo forces you to start the whole calculation over</td>
+          <td class="highlight-col"><strong>Click any past line to edit; all subtotals follow automatically</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Text Annotations</strong></td>
+          <td>Pure abstract numbers with zero context</td>
+          <td class="highlight-col"><strong>Type clear notes next to any line item (e.g. 'Flight', 'Tip')</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Export & Sharing</strong></td>
+          <td>Retyping by hand or taking messy screenshots</td>
+          <td class="highlight-col"><strong>Copy clean formatted text tape or export clean PDF receipt</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Running Memory</strong></td>
+          <td>Clunky M+/M- buttons from decades past</td>
+          <td class="highlight-col"><strong>Subtotals and totals clearly displayed right on the roll</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 <section class="card">
   <h2>La privadesa en un paràgraf</h2>
   <p>Tallette no es connecta mai a internet. Les teves cintes es queden al teu dispositiu, als fitxers que deses. No hi ha cap compte, ni seguiment, ni analítiques, i no es recull cap dada. La <a href="privacy.html">política de privadesa</a> completa diu el mateix amb més detall.</p>
